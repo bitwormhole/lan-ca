@@ -1,4 +1,4 @@
-package example
+package iexample
 
 import (
 	"github.com/bitwormhole/lan-ca/backend/app/data/dao"

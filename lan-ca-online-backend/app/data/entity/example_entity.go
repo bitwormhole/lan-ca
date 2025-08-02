@@ -6,6 +6,8 @@ import "github.com/bitwormhole/lan-ca/backend/app/data/dxo"
 type Example struct {
 	ID dxo.ExampleID
 
+	Base
+
 	Foo string
 	Bar int
 }

@@ -9,6 +9,7 @@ import (
 	"github.com/bitwormhole/lan-ca/backend/app/web/vo"
 	"github.com/gin-gonic/gin"
 	"github.com/starter-go/libgin"
+	"github.com/starter-go/rbac"
 )
 
 // ExampleController ...
@@ -70,10 +71,12 @@ type myExampleRequest struct {
 
 	wantRequestID   bool
 	wantRequestBody bool
+	wantRequestPage bool
 
-	id    dxo.ExampleID
-	body1 vo.Example
-	body2 vo.Example
+	id         dxo.ExampleID
+	pagination rbac.Pagination
+	body1      vo.Example
+	body2      vo.Example
 }
 
 func (inst *myExampleRequest) open() error {
