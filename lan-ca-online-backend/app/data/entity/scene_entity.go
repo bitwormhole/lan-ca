@@ -8,6 +8,10 @@ type Scene struct {
 
 	Base
 
+	Name  string
+	QName string `gorm:"unique"`
+
 	Label       string
+	Comment     string
 	Description string
 }

@@ -22,3 +22,5 @@ export const useAxiosStore = defineStore('axios-store', {
     },
 
 });
+
+// export default useAxiosStore 

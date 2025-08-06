@@ -4,6 +4,9 @@ import (
 	"embed"
 
 	"github.com/starter-go/application"
+	"github.com/starter-go/rbac"
+	"github.com/starter-go/security-gin-gorm/components/web/controllers/home"
+	"github.com/starter-go/vlog"
 )
 
 const (
@@ -45,4 +48,10 @@ func NewTestModule() *application.ModuleBuilder {
 	mb.Revision(theModuleRevision)
 	mb.EmbedResources(theTestModuleResFS, theTestModuleResPath)
 	return mb
+}
+
+func playground() {
+	ac := home.AuthController{}
+	a := rbac.AuthDTO{}
+	vlog.Debug("", a, ac)
 }

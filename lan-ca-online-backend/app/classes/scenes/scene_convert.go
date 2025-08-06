@@ -8,8 +8,17 @@ import (
 
 func ConvertD2E(src *dto.Scene, dst *entity.Scene) error {
 
+	uidstr := src.Owner.String()
+
 	rbacdb.CopyBaseFieldsFromDtoToEntity(&src.BaseDTO, &dst.BaseEntity)
 	dst.ID = src.ID
+
+	dst.Name = src.Name
+	dst.QName = uidstr + ":" + src.Name
+
+	dst.Label = src.Label
+	dst.Comment = src.Comment
+	dst.Description = src.Description
 
 	return nil
 }
@@ -18,6 +27,11 @@ func ConvertE2D(src *entity.Scene, dst *dto.Scene) error {
 
 	rbacdb.CopyBaseFieldsFromEntityToDTO(&src.BaseEntity, &dst.BaseDTO)
 	dst.ID = src.ID
+
+	dst.Name = src.Name
+	dst.Label = src.Label
+	dst.Comment = src.Comment
+	dst.Description = src.Description
 
 	return nil
 }

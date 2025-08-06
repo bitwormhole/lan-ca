@@ -12,9 +12,13 @@ func ConvertD2E(src *dto.Domain, dst *entity.Domain) error {
 	dst.ID = src.ID
 
 	dst.Name = src.Name
-	dst.AddressIPv4 = src.IPv4
-	dst.AddressIPv6 = src.IPv6
+	dst.IPv4 = src.IPv4
+	dst.IPv6 = src.IPv6
+	dst.Scene = src.Scene
+
+	dst.Label = src.Label
 	dst.Comment = src.Comment
+	dst.Description = src.Description
 
 	return nil
 }
@@ -25,9 +29,13 @@ func ConvertE2D(src *entity.Domain, dst *dto.Domain) error {
 	dst.ID = src.ID
 
 	dst.Name = src.Name
-	dst.IPv4 = src.AddressIPv4
-	dst.IPv6 = src.AddressIPv6
+	dst.IPv4 = src.IPv4
+	dst.IPv6 = src.IPv6
+	dst.Scene = src.Scene
+
+	dst.Label = src.Label
 	dst.Comment = src.Comment
+	dst.Description = src.Description
 
 	return nil
 }

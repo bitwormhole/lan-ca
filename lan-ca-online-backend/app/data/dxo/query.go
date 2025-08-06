@@ -7,6 +7,7 @@ import (
 
 // CommonQuery ... 是一个通用的基本查询对象
 type CommonQuery struct {
+	User       rbac.UserID
 	Pagination rbac.Pagination
 	Limit      int64
 	Offset     int64

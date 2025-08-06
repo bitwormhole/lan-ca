@@ -4,7 +4,9 @@ import (
 	"strconv"
 
 	"github.com/bitwormhole/lan-ca/backend/app/classes/certificates"
+	"github.com/bitwormhole/lan-ca/backend/app/classes/permissions"
 	"github.com/bitwormhole/lan-ca/backend/app/data/dxo"
+	"github.com/bitwormhole/lan-ca/backend/app/data/entity"
 	"github.com/bitwormhole/lan-ca/backend/app/web/dto"
 	"github.com/bitwormhole/lan-ca/backend/app/web/vo"
 	"github.com/gin-gonic/gin"
@@ -19,7 +21,8 @@ type CertificateController struct {
 	//starter:component
 	_as func(libgin.Controller) //starter:as(".")
 
-	Sender libgin.Responder //starter:inject("#")
+	Sender       libgin.Responder           //starter:inject("#")
+	PermCheckers permissions.CheckerService //starter:inject('#')
 
 	CertService certificates.Service //starter:inject("#")
 }
@@ -43,6 +46,7 @@ func (inst *CertificateController) route(rp libgin.RouterProxy) error {
 
 	rp.GET("", inst.handleGetList)
 	rp.GET(":id", inst.handleGetOne)
+	rp.GET("example", inst.handleGetMock)
 
 	return nil
 }
@@ -71,7 +75,9 @@ func (inst *CertificateController) handleGetList(c *gin.Context) {
 		controller:      inst,
 		wantRequestID:   false,
 		wantRequestPage: true,
+		wantPermChecker: true,
 	}
+	req.hChecker.AcceptRoles(rbac.RoleOwner)
 	req.execute(req.doGetList)
 }
 
@@ -93,10 +99,13 @@ type myCertificateRequest struct {
 	wantRequestID   bool
 	wantRequestBody bool
 	wantRequestPage bool
+	wantPermChecker bool
 
+	hChecker   permissions.CheckerHolder
 	pagination rbac.Pagination
 	id         dxo.CertificateID
 	body1      vo.Certificates
+	bodyTmp    vo.Certificates
 	body2      vo.Certificates
 }
 
@@ -124,6 +133,14 @@ func (inst *myCertificateRequest) open() error {
 		inst.pagination = controllers.GetPagination(c)
 	}
 
+	if inst.wantPermChecker {
+		pc_ser := inst.controller.PermCheckers
+		err := inst.hChecker.Init(c, pc_ser)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -143,6 +160,13 @@ func (inst *myCertificateRequest) execute(fn func() error) {
 	if err == nil {
 		err = fn()
 	}
+	if inst.wantPermChecker {
+		err = inst.hChecker.Done(err)
+	}
+	if err == nil {
+		inst.body2.Items = inst.bodyTmp.Items
+		inst.body2.Pagination = inst.bodyTmp.Pagination
+	}
 	inst.send(err)
 }
 
@@ -151,19 +175,16 @@ func (inst *myCertificateRequest) doNOP() error {
 }
 
 func (inst *myCertificateRequest) doGetMock() error {
-
-	o2 := &dto.Certificate{
-		ID: 0, //  o1.ID,
-
-	}
-	inst.body2.Items = []*dto.Certificate{o2}
+	item := &dto.Certificate{}
+	inst.bodyTmp.Items = []*dto.Certificate{item}
 	return nil
 }
 
 func (inst *myCertificateRequest) doGetOne() error {
 	id := inst.id
+	ctx := inst.context
 	ser := inst.controller.CertService
-	o1, err := ser.Find(nil, id)
+	o1, err := ser.Find(ctx, id)
 	if err != nil {
 		return err
 	}
@@ -172,15 +193,31 @@ func (inst *myCertificateRequest) doGetOne() error {
 }
 
 func (inst *myCertificateRequest) doGetList() error {
+
 	ctx := inst.context
 	ser := inst.controller.CertService
 	q := &certificates.Query{}
+	want := &entity.Certificate{}
+
+	checker := inst.hChecker.GetChecker()
+	uid := checker.CurrentUserID()
+	want.Owner = uid
+
 	q.Pagination = inst.pagination
+	q.User = uid
+	q.Want = want
+
 	list, err := ser.List(ctx, q)
-	if err != nil {
-		return err
+	checker.HandleError(err)
+
+	for _, item := range list {
+		checker.CheckOwnerForDTO(&item.BaseDTO)
 	}
-	inst.body2.Items = list
-	inst.body2.Pagination = &q.Pagination
+
+	if checker.Error() == nil {
+		inst.bodyTmp.Items = list
+		inst.bodyTmp.Pagination = &q.Pagination
+	}
+
 	return nil
 }

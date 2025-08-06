@@ -12,11 +12,19 @@ type Certificate struct {
 
 	Base
 
-	StartedAt  time.Time
-	StoppedAt  time.Time
+	SN string
+
+	NotAfter   time.Time
+	NotBefore  time.Time
 	DomainName dxo.DomainName
 	DomainID   dxo.DomainID
 
-	Label       string
-	Description string
+	Subject dxo.CertificateUserInfoJSON
+	Signer  dxo.CertificateUserInfoJSON
+
+	PublicKeyFingerprint   dxo.Fingerprint // in SHA256SUM
+	CertificateFingerprint dxo.Fingerprint `gorm:"unique"` // in SHA256SUM
+
+	Label   string
+	Comment string
 }

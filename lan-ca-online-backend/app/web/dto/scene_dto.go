@@ -8,6 +8,8 @@ type Scene struct {
 
 	Base
 
-	Foo string `json:"foo"`
-	Bar int    `json:"bar"`
+	Name        string `json:"name"`
+	Label       string `json:"label"`
+	Comment     string `json:"comment"`
+	Description string `json:"description"`
 }

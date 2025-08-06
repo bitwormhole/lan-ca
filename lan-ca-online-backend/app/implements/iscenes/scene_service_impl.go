@@ -37,7 +37,7 @@ func (inst *SceneServiceImpl) List(ctx context.Context, q *scenes.Query) ([]*dto
 	want := q.Want
 	if want == nil {
 		want = new(entity.Scene)
-		want.Owner = 17
+		want.Owner = -1
 		q.Want = want
 	}
 
@@ -46,4 +46,26 @@ func (inst *SceneServiceImpl) List(ctx context.Context, q *scenes.Query) ([]*dto
 		return nil, err
 	}
 	return scenes.ConvertListE2D(list1, nil)
+}
+
+func (inst *SceneServiceImpl) Insert(ctx context.Context, item1 *dto.Scene) (*dto.Scene, error) {
+
+	item2 := new(entity.Scene)
+	err := scenes.ConvertD2E(item1, item2)
+	if err != nil {
+		return nil, err
+	}
+
+	item3, err := inst.Dao.Insert(nil, item2)
+	if err != nil {
+		return nil, err
+	}
+
+	item4 := new(dto.Scene)
+	err = scenes.ConvertE2D(item3, item4)
+	if err != nil {
+		return nil, err
+	}
+
+	return item4, nil
 }

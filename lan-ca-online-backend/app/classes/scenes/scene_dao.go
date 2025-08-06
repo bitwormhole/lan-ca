@@ -10,4 +10,5 @@ import (
 type DAO interface {
 	Find(db *gorm.DB, id dxo.SceneID) (*entity.Scene, error)
 	List(db *gorm.DB, q *Query) ([]*entity.Scene, error)
+	Insert(db *gorm.DB, item *entity.Scene) (*entity.Scene, error)
 }

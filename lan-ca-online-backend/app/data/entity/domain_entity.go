@@ -8,10 +8,12 @@ type Domain struct {
 
 	Base
 
-	Name        dxo.DomainName `gorm:"unique"`
-	AddressIPv4 dxo.IPv4Address
-	AddressIPv6 dxo.IPv6Address
-	Comment     string
-
+	Name  dxo.DomainName  `gorm:"unique"`
+	IPv4  dxo.IPv4Address `gorm:"column:ipv4_address"`
+	IPv6  dxo.IPv6Address `gorm:"column:ipv6_address"`
 	Scene dxo.SceneID
+
+	Label       string
+	Comment     string
+	Description string
 }

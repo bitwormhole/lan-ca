@@ -16,6 +16,7 @@ import (
     pd1a916a20 "github.com/starter-go/libgin"
     p512a30914 "github.com/starter-go/libgorm"
     p24287f458 "github.com/starter-go/rbac"
+    p9621e8b71 "github.com/starter-go/security/random"
      "github.com/starter-go/application"
 )
 
@@ -169,7 +170,6 @@ func (inst* pfaa92fe241_icertificates_CertificateServiceImpl) inject(injext appl
 
 	
     com.Dao = inst.getDao(ie)
-    com.PermChecker = inst.getPermChecker(ie)
 
 
     return nil
@@ -178,11 +178,6 @@ func (inst* pfaa92fe241_icertificates_CertificateServiceImpl) inject(injext appl
 
 func (inst*pfaa92fe241_icertificates_CertificateServiceImpl) getDao(ie application.InjectionExt)p39f1aacbc.DAO{
     return ie.GetComponent("#alias-39f1aacbcc95c25190d9f6295f48486e-DAO").(p39f1aacbc.DAO)
-}
-
-
-func (inst*pfaa92fe241_icertificates_CertificateServiceImpl) getPermChecker(ie application.InjectionExt)pdb766c45a.Checker{
-    return ie.GetComponent("#alias-db766c45ad9bffb478a55f076577ab20-Checker").(pdb766c45a.Checker)
 }
 
 
@@ -329,7 +324,7 @@ func (inst*p22b8c2eb74_iexample_DaoImpl) getAgent(ie application.InjectionExt)p1
 //
 // id:com-f3f9eff282c69889-ipermissions-CheckerServiceImpl
 // class:
-// alias:alias-db766c45ad9bffb478a55f076577ab20-Checker
+// alias:alias-db766c45ad9bffb478a55f076577ab20-CheckerService
 // scope:singleton
 //
 type pf3f9eff282_ipermissions_CheckerServiceImpl struct {
@@ -339,7 +334,7 @@ func (inst* pf3f9eff282_ipermissions_CheckerServiceImpl) register(cr application
 	r := cr.NewRegistration()
 	r.ID = "com-f3f9eff282c69889-ipermissions-CheckerServiceImpl"
 	r.Classes = ""
-	r.Aliases = "alias-db766c45ad9bffb478a55f076577ab20-Checker"
+	r.Aliases = "alias-db766c45ad9bffb478a55f076577ab20-CheckerService"
 	r.Scope = "singleton"
 	r.NewFunc = inst.new
 	r.InjectFunc = inst.inject
@@ -401,6 +396,7 @@ func (inst* p782b4d9055_iscenes_SceneDaoImpl) inject(injext application.Injectio
 
 	
     com.Agent = inst.getAgent(ie)
+    com.UUIDGen = inst.getUUIDGen(ie)
 
 
     return nil
@@ -409,6 +405,11 @@ func (inst* p782b4d9055_iscenes_SceneDaoImpl) inject(injext application.Injectio
 
 func (inst*p782b4d9055_iscenes_SceneDaoImpl) getAgent(ie application.InjectionExt)p10d00aedf.DatabaseAgent{
     return ie.GetComponent("#alias-10d00aedf543c0d34cbdf4945116adfb-DatabaseAgent").(p10d00aedf.DatabaseAgent)
+}
+
+
+func (inst*p782b4d9055_iscenes_SceneDaoImpl) getUUIDGen(ie application.InjectionExt)p9621e8b71.UUIDService{
+    return ie.GetComponent("#alias-9621e8b71013b0fc25942a1749ed3652-UUIDService").(p9621e8b71.UUIDService)
 }
 
 
@@ -489,6 +490,7 @@ func (inst* p77d2978569_apiv1_CertificateController) inject(injext application.I
 
 	
     com.Sender = inst.getSender(ie)
+    com.PermCheckers = inst.getPermCheckers(ie)
     com.CertService = inst.getCertService(ie)
 
 
@@ -498,6 +500,11 @@ func (inst* p77d2978569_apiv1_CertificateController) inject(injext application.I
 
 func (inst*p77d2978569_apiv1_CertificateController) getSender(ie application.InjectionExt)pd1a916a20.Responder{
     return ie.GetComponent("#alias-d1a916a203352fd5d33eabc36896b42e-Responder").(pd1a916a20.Responder)
+}
+
+
+func (inst*p77d2978569_apiv1_CertificateController) getPermCheckers(ie application.InjectionExt)pdb766c45a.CheckerService{
+    return ie.GetComponent("#alias-db766c45ad9bffb478a55f076577ab20-CheckerService").(pdb766c45a.CheckerService)
 }
 
 
@@ -539,6 +546,7 @@ func (inst* p77d2978569_apiv1_DomainsController) inject(injext application.Injec
 
 	
     com.Sender = inst.getSender(ie)
+    com.PermCheckers = inst.getPermCheckers(ie)
     com.DomainService = inst.getDomainService(ie)
 
 
@@ -548,6 +556,11 @@ func (inst* p77d2978569_apiv1_DomainsController) inject(injext application.Injec
 
 func (inst*p77d2978569_apiv1_DomainsController) getSender(ie application.InjectionExt)pd1a916a20.Responder{
     return ie.GetComponent("#alias-d1a916a203352fd5d33eabc36896b42e-Responder").(pd1a916a20.Responder)
+}
+
+
+func (inst*p77d2978569_apiv1_DomainsController) getPermCheckers(ie application.InjectionExt)pdb766c45a.CheckerService{
+    return ie.GetComponent("#alias-db766c45ad9bffb478a55f076577ab20-CheckerService").(pdb766c45a.CheckerService)
 }
 
 
@@ -639,6 +652,7 @@ func (inst* p77d2978569_apiv1_SceneController) inject(injext application.Injecti
 
 	
     com.Sender = inst.getSender(ie)
+    com.PermCheckers = inst.getPermCheckers(ie)
     com.SceneService = inst.getSceneService(ie)
 
 
@@ -648,6 +662,11 @@ func (inst* p77d2978569_apiv1_SceneController) inject(injext application.Injecti
 
 func (inst*p77d2978569_apiv1_SceneController) getSender(ie application.InjectionExt)pd1a916a20.Responder{
     return ie.GetComponent("#alias-d1a916a203352fd5d33eabc36896b42e-Responder").(pd1a916a20.Responder)
+}
+
+
+func (inst*p77d2978569_apiv1_SceneController) getPermCheckers(ie application.InjectionExt)pdb766c45a.CheckerService{
+    return ie.GetComponent("#alias-db766c45ad9bffb478a55f076577ab20-CheckerService").(pdb766c45a.CheckerService)
 }
 
 

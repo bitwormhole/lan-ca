@@ -11,4 +11,6 @@ type Service interface {
 	Find(ctx context.Context, id dxo.SceneID) (*dto.Scene, error)
 
 	List(ctx context.Context, q *Query) ([]*dto.Scene, error)
+
+	Insert(ctx context.Context, item *dto.Scene) (*dto.Scene, error)
 }
