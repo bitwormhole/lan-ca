@@ -63,3 +63,25 @@ func (inst *DomainServiceImpl) List(ctx context.Context, q *domains.Query) ([]*d
 	}
 	return domains.ConvertListE2D(list1, nil)
 }
+
+func (inst *DomainServiceImpl) Insert(ctx context.Context, it1 *dto.Domain) (*dto.Domain, error) {
+
+	it2 := new(entity.Domain)
+	err := domains.ConvertD2E(it1, it2)
+	if err != nil {
+		return nil, err
+	}
+
+	it3, err := inst.Dao.Insert(nil, it2)
+	if err != nil {
+		return nil, err
+	}
+
+	it4 := new(dto.Domain)
+	err = domains.ConvertE2D(it3, it4)
+	if err != nil {
+		return nil, err
+	}
+
+	return it4, nil
+}

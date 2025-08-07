@@ -22,6 +22,10 @@ export const useScenesStore = defineStore('scenes-store', {
 
     actions: {
 
+        reset() {
+            this.inner_items = [];
+        },
+
         fetch() {
             let url = '/api/v1/scenes'
             let method = 'GET';

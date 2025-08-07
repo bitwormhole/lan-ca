@@ -47,22 +47,24 @@ export const useAuthxStore = defineStore('authx-store', {
             let data = {
                 auth: [auth1]
             }
-            axios_store.request({ method, url, data }).then((res) => {
+            let pro = axios_store.request({ method, url, data }).then((res) => {
                 // let vo = res.data;
                 // let items = vo.domains;
                 console.log(res.statusText)
             })
+            return pro;
         },
 
         sign_up() {
             let url = '/api/v1/example'
             let method = 'GET';
             let self = this;
-            axios_store.request({ method, url }).then((res) => {
+            let pro = axios_store.request({ method, url }).then((res) => {
                 // let vo = res.data;
                 // let items = vo.domains;
                 console.log(res.statusText)
             })
+            return pro;
         },
 
     },

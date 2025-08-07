@@ -4,6 +4,8 @@ import (
 	"github.com/bitwormhole/lan-ca/backend/app/classes/domains"
 	"github.com/bitwormhole/lan-ca/backend/app/data/dxo"
 	"github.com/bitwormhole/lan-ca/backend/app/data/entity"
+	"github.com/starter-go/base/lang"
+	"github.com/starter-go/security/random"
 	"gorm.io/gorm"
 )
 
@@ -12,7 +14,8 @@ type DomainDaoImpl struct {
 	//starter:component
 	_as func(domains.DAO) //starter:as('#')
 
-	Agent dxo.DatabaseAgent //starter:inject("#")
+	Agent   dxo.DatabaseAgent  //starter:inject("#")
+	UUIDGen random.UUIDService //starter:inject("#")
 
 }
 
@@ -26,6 +29,11 @@ func (inst *DomainDaoImpl) modelItem() *entity.Domain {
 
 func (inst *DomainDaoImpl) modelList() []*entity.Domain {
 	return make([]*entity.Domain, 0)
+}
+
+func (inst *DomainDaoImpl) makeItemUUID() lang.UUID {
+	builder := inst.UUIDGen.Build().Class("DomainDaoImpl")
+	return builder.Generate()
 }
 
 func (inst *DomainDaoImpl) makeResult(item *entity.Domain, res *gorm.DB) (*entity.Domain, error) {
@@ -57,4 +65,12 @@ func (inst *DomainDaoImpl) List(db *gorm.DB, q *domains.Query) ([]*entity.Domain
 		return nil, err
 	}
 	return list1, nil
+}
+
+func (inst *DomainDaoImpl) Insert(db *gorm.DB, item *entity.Domain) (*entity.Domain, error) {
+	item.ID = 0
+	item.UUID = inst.makeItemUUID()
+	db = inst.Agent.DB(db)
+	res := db.Create(item)
+	return inst.makeResult(item, res)
 }

@@ -11,4 +11,6 @@ type Service interface {
 	Find(ctx context.Context, id dxo.CertificateID) (*dto.Certificate, error)
 
 	List(ctx context.Context, q *Query) ([]*dto.Certificate, error)
+
+	Insert(ctx context.Context, item *dto.Certificate) (*dto.Certificate, error)
 }

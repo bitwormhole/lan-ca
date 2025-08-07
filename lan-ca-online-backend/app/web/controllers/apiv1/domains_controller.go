@@ -40,7 +40,7 @@ func (inst *DomainsController) route(rp libgin.RouterProxy) error {
 
 	rp = rp.For("domains")
 
-	rp.POST("", inst.handle)
+	rp.POST("", inst.handlePost)
 	rp.PUT(":id", inst.handle)
 	rp.DELETE(":id", inst.handle)
 
@@ -88,6 +88,18 @@ func (inst *DomainsController) handleGetMock(c *gin.Context) {
 		wantRequestID: false,
 	}
 	req.execute(req.doGetMock)
+}
+
+func (inst *DomainsController) handlePost(c *gin.Context) {
+	req := &myDomainsRequest{
+		context:         c,
+		controller:      inst,
+		wantRequestID:   false,
+		wantRequestBody: true,
+		wantPermChecker: true,
+	}
+	req.hChecker.AcceptRoles(rbac.RoleOwner)
+	req.execute(req.doPostInsert)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -177,6 +189,35 @@ func (inst *myDomainsRequest) doNOP() error {
 func (inst *myDomainsRequest) doGetMock() error {
 	item := &dto.Domain{}
 	inst.bodyTmp.Items = []*dto.Domain{item}
+	return nil
+}
+
+func (inst *myDomainsRequest) doPostInsert() error {
+
+	ser := inst.controller.DomainService
+	ctx := inst.context
+	checker := inst.hChecker.GetChecker()
+	uid := checker.CurrentUserID()
+
+	list1 := inst.body1.Items
+	it1 := list1[0]
+
+	it1.Owner = uid
+	it1.Creator = uid
+	it1.Updater = uid
+
+	it2, err := ser.Insert(ctx, it1)
+	checker.HandleError(err)
+	if checker.HasError() {
+		return checker.Error()
+	}
+
+	checker.CheckOwnerForDTO(&it2.BaseDTO)
+
+	if checker.HasError() {
+		return checker.Error()
+	}
+	inst.bodyTmp.Items = []*dto.Domain{it2}
 	return nil
 }
 

@@ -9,5 +9,8 @@ import (
 // CertificateDAO ...
 type DAO interface {
 	Find(db *gorm.DB, id dxo.CertificateID) (*entity.Certificate, error)
+
 	List(db *gorm.DB, q *Query) ([]*entity.Certificate, error)
+
+	Insert(db *gorm.DB, item *entity.Certificate) (*entity.Certificate, error)
 }

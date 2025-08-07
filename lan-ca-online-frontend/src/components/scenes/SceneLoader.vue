@@ -1,8 +1,10 @@
 <script lang="js">
 
 import { useScenesStore } from '@/stores/scenes'
+import { useSessionStore } from '@/stores/sessions'
 
 const scenes_store = useScenesStore();
+const session_store = useSessionStore();
 
 export default {
 
@@ -10,9 +12,20 @@ export default {
         return {}
     },
 
+    computed: {
+        currentUserUUID() {
+            let info = session_store.info;
+            return info.uuid;
+        },
+    },
+
     methods: {
         fetch() {
             scenes_store.fetch()
+        },
+
+        reset() {
+            scenes_store.reset()
         },
     },
 
@@ -24,6 +37,13 @@ export default {
 
     props: {
         autoFetch: Boolean
+    },
+
+    watch: {
+        currentUserUUID() {
+            this.reset()
+            this.fetch()
+        },
     },
 }
 </script>

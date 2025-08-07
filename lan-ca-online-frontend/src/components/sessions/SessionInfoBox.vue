@@ -4,16 +4,20 @@ import { ElButton } from 'element-plus';
 
 import { useSessionStore } from '@/stores/sessions'
 import pinia from '@/stores/pinia'
+import MyLoginDialog from '@/components/authx/LoginDialog.vue'
+
 
 const session_store = useSessionStore(pinia);
 
 
 export default {
 
-    // components: { MyLoader, MyToolbar, MyTable, },
+    components: { MyLoginDialog },
 
     data() {
-        return {}
+        return {
+            displayLoginDialog: false,
+        }
     },
 
     computed: {
@@ -32,13 +36,13 @@ export default {
         },
 
         handleClickLogin() {
-            let location = this.$router.resolve('/login')
-            let url = location.href;
-            window.open(url, '_blank')
+            this.displayLoginDialog = true;
+        },
+
+        handleClickLogout() {
+            session_store.exit();
         },
     },
-
-
 
     mounted() {
         this.fetch()
@@ -60,6 +64,11 @@ export default {
             <div> user_id: {{ info.user }} </div>
             <div> user_uuid: {{ info.uuid }} </div>
             <div> user_email: {{ info.email }} </div>
+
+            <ElButton @click="handleClickLogout">退登</ElButton>
+
         </div>
+
+        <MyLoginDialog ref="theLoginDialog" v-model="displayLoginDialog" />
     </div>
 </template>

@@ -1,20 +1,14 @@
 <script lang="js">
-import { ElFormItem } from 'element-plus';
-import { ElButton } from 'element-plus';
-import { ElForm } from 'element-plus';
-import { ElDialog } from 'element-plus';
-
 
 export default {
-    methods: {}
-}
 
+}
 </script>
 
 <style lang="css"></style>
 
 <template>
-    <ElDialog title="场景属性">
+    <ElDialog title="域名属性">
         <ElForm>
 
             <ElFormItem></ElFormItem>

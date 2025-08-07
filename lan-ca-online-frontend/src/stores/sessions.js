@@ -12,9 +12,10 @@ export const useSessionStore = defineStore('session-store', {
     state() {
         return {
             inner_session_info: {
-                avatar: '(url)',
-                nickname: '(name_string)',
+                avatar: '',
+                nickname: '',
                 id: 0,
+                uuid: '',
                 email: '(addr)',
             }
         }
@@ -33,7 +34,7 @@ export const useSessionStore = defineStore('session-store', {
             let method = 'GET';
             let self = this;
             let getter = createNewGetter();
-            axios_store.request({ method, url }).then((res) => {
+            let pro = axios_store.request({ method, url }).then((res) => {
                 let vo = res.data;
                 let info = {}
                 const name_prefix = 'sessions.0.';
@@ -44,9 +45,18 @@ export const useSessionStore = defineStore('session-store', {
                 info.authenticated = getter.get(vo, name_prefix + 'authenticated');
                 self.inner_session_info = info;
             })
+            return pro;
+        },
+
+        exit() {
+            let url = '/api/v1/sessions/exit'
+            let method = 'POST';
+            let data = {}
+            let pro = axios_store.request({ method, url, data }).then((res) => {
+                this.fetch();
+            })
+            return pro;
         },
     },
 
 });
-
-// export default useSessionStore;

@@ -52,3 +52,25 @@ func (inst *CertificateServiceImpl) List(ctx context.Context, q *certificates.Qu
 
 	return certificates.ConvertListE2D(list1, nil)
 }
+
+func (inst *CertificateServiceImpl) Insert(ctx context.Context, it1 *dto.Certificate) (*dto.Certificate, error) {
+
+	it2 := new(entity.Certificate)
+	err := certificates.ConvertD2E(it1, it2)
+	if err != nil {
+		return nil, err
+	}
+
+	it3, err := inst.Dao.Insert(nil, it2)
+	if err != nil {
+		return nil, err
+	}
+
+	it4 := new(dto.Certificate)
+	err = certificates.ConvertE2D(it3, it4)
+	if err != nil {
+		return nil, err
+	}
+
+	return it4, nil
+}

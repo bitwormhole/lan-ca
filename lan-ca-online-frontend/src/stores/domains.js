@@ -31,11 +31,24 @@ export const useDomainsStore = defineStore('domains-store', {
             let url = '/api/v1/domains'
             let method = 'GET';
             let self = this;
-            axios_store.request({ method, url }).then((res) => {
+            let pro = axios_store.request({ method, url }).then((res) => {
                 let vo = res.data;
                 let items = vo.domains;
                 self.inner_items = items;
-            })
+            });
+            return pro;
+        },
+
+        insert(vo) {
+            let url = '/api/v1/domains'
+            let method = 'POST';
+            let data = vo;
+            let pro = axios_store.request({ method, url, data }).then((res) => {
+                // let vo = res.data;
+                // let items = vo.domains;
+                // self.inner_items = items;
+            });
+            return pro;
         },
     },
 

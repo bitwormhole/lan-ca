@@ -1,14 +1,16 @@
 <script lang="js">
 import { ElButton } from 'element-plus';
 import MyLoader from './DomainLoader.vue'
-
+import MyAddingDialog from './DomainAddingDialog.vue'
 
 export default {
 
-    components: { MyLoader },
+    components: { MyLoader, MyAddingDialog },
 
     data() {
-        return {}
+        return {
+            displayAddingDialog: false
+        }
     },
 
     methods: {
@@ -29,6 +31,10 @@ export default {
     <div class="root">
         <MyLoader ref="loader" />
         <ElButton @click="fetch"> Refresh </ElButton>
-        <ElButton> Add </ElButton>
+        <ElButton @click=" displayAddingDialog = true"> Add </ElButton>
+
+
+        <MyAddingDialog v-model="displayAddingDialog"> </MyAddingDialog>
+
     </div>
 </template>

@@ -126,6 +126,7 @@ func (inst* pfaa92fe241_icertificates_CertificateDaoImpl) inject(injext applicat
 
 	
     com.Agent = inst.getAgent(ie)
+    com.UUIDGen = inst.getUUIDGen(ie)
 
 
     return nil
@@ -134,6 +135,11 @@ func (inst* pfaa92fe241_icertificates_CertificateDaoImpl) inject(injext applicat
 
 func (inst*pfaa92fe241_icertificates_CertificateDaoImpl) getAgent(ie application.InjectionExt)p10d00aedf.DatabaseAgent{
     return ie.GetComponent("#alias-10d00aedf543c0d34cbdf4945116adfb-DatabaseAgent").(p10d00aedf.DatabaseAgent)
+}
+
+
+func (inst*pfaa92fe241_icertificates_CertificateDaoImpl) getUUIDGen(ie application.InjectionExt)p9621e8b71.UUIDService{
+    return ie.GetComponent("#alias-9621e8b71013b0fc25942a1749ed3652-UUIDService").(p9621e8b71.UUIDService)
 }
 
 
@@ -214,6 +220,7 @@ func (inst* p07037744c4_idomains_DomainDaoImpl) inject(injext application.Inject
 
 	
     com.Agent = inst.getAgent(ie)
+    com.UUIDGen = inst.getUUIDGen(ie)
 
 
     return nil
@@ -222,6 +229,11 @@ func (inst* p07037744c4_idomains_DomainDaoImpl) inject(injext application.Inject
 
 func (inst*p07037744c4_idomains_DomainDaoImpl) getAgent(ie application.InjectionExt)p10d00aedf.DatabaseAgent{
     return ie.GetComponent("#alias-10d00aedf543c0d34cbdf4945116adfb-DatabaseAgent").(p10d00aedf.DatabaseAgent)
+}
+
+
+func (inst*p07037744c4_idomains_DomainDaoImpl) getUUIDGen(ie application.InjectionExt)p9621e8b71.UUIDService{
+    return ie.GetComponent("#alias-9621e8b71013b0fc25942a1749ed3652-UUIDService").(p9621e8b71.UUIDService)
 }
 
 

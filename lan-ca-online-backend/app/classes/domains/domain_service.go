@@ -11,4 +11,6 @@ type Service interface {
 	Find(ctx context.Context, id dxo.DomainID) (*dto.Domain, error)
 
 	List(ctx context.Context, q *Query) ([]*dto.Domain, error)
+
+	Insert(ctx context.Context, item *dto.Domain) (*dto.Domain, error)
 }

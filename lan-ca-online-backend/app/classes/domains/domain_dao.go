@@ -9,5 +9,8 @@ import (
 // DomainDAO ...
 type DAO interface {
 	Find(db *gorm.DB, id dxo.DomainID) (*entity.Domain, error)
+
 	List(db *gorm.DB, q *Query) ([]*entity.Domain, error)
+
+	Insert(db *gorm.DB, item *entity.Domain) (*entity.Domain, error)
 }
