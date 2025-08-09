@@ -2,6 +2,8 @@
 
 import { useCertificatesStore } from '@/stores/certificates'
 import { Time } from '@/js/time'
+import MyPropertiesDialog from './CertificatePropertiesDialog.vue'
+
 
 const certs_store = useCertificatesStore();
 
@@ -18,8 +20,13 @@ const the_cert_state_table = {
 
 export default {
 
+    components: { MyPropertiesDialog },
+
     data() {
-        return {}
+        return {
+            displayPropertiesDialog: false,
+            currentItem: {},
+        }
     },
 
     computed: {
@@ -29,6 +36,12 @@ export default {
     },
 
     methods: {
+
+        handleClickItemProps(item) {
+            this.currentItem = item;
+            this.displayPropertiesDialog = true;
+        },
+
         formatterForTime(row, column, cellValue, index) {
             return Time.formatTime(cellValue);
         },
@@ -66,6 +79,12 @@ export default {
             <el-table-column prop="not_after" label="失效日期" :formatter="formatterForTime" />
 
             <el-table-column prop="comment" label="备注" />
+
+            <el-table-column label="">
+                <template #default="scope"> <el-button type="primary" link @click="handleClickItemProps(scope.row)"> 属性
+                    </el-button> </template>
+            </el-table-column>
         </el-table>
+        <MyPropertiesDialog v-model="displayPropertiesDialog" :item="currentItem" />
     </div>
 </template>

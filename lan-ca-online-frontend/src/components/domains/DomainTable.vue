@@ -1,16 +1,21 @@
 <script>
 import { ElTable } from 'element-plus';
 import { ElButton } from 'element-plus';
-
 import { useDomainsStore } from '@/stores/domains'
+import MyPropertiesDialog from './DomainPropertiesDialog.vue'
+
+
 
 const domains_store = useDomainsStore();
 
 export default {
 
+    components: { MyPropertiesDialog },
+
     data() {
         return {
-
+            currentItem: {},
+            displayPropertiesDialog: false,
         }
     },
 
@@ -21,6 +26,10 @@ export default {
     },
 
     methods: {
+        handleClickItemProps(item) {
+            this.currentItem = item;
+            this.displayPropertiesDialog = true;
+        },
     },
 
     mounted() {
@@ -53,6 +62,13 @@ export default {
             <el-table-column prop="comment" label="备注" />
             <el-table-column prop="scene" label="应用场景" />
             <el-table-column prop="cert" label="Cert state (todo)" />
+
+            <el-table-column label="">
+                <template #default="scope"> <el-button type="primary" link @click="handleClickItemProps(scope.row)"> 属性
+                    </el-button> </template>
+            </el-table-column>
+
         </el-table>
+        <MyPropertiesDialog v-model="displayPropertiesDialog" :item="currentItem" />
     </div>
 </template>
