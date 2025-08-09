@@ -6,9 +6,10 @@ import (
 	"github.com/bitwormhole/lan-ca/backend/app/data/dxo"
 )
 
-// Certificate ...
-type Certificate struct {
-	ID dxo.CertificateID
+// CertificateBase ...
+type CertificateBase struct {
+
+	// ID dxo.CertificateID
 
 	Base
 
@@ -27,4 +28,19 @@ type Certificate struct {
 
 	Label   string
 	Comment string
+	State   dxo.CertificateState
+}
+
+// Certificate ...
+type Certificate struct {
+	ID dxo.CertificateID
+
+	CertificateBase
+}
+
+// CertificateTemplate ...
+type CertificateTemplate struct {
+	ID dxo.CertificateTemplateID
+
+	CertificateBase
 }

@@ -23,6 +23,7 @@ type Certificate struct {
 	Subject dxo.CertificateUserInfo `json:"subject"`
 	Signer  dxo.CertificateUserInfo `json:"signer"`
 
-	Label   string `json:"label"`
-	Comment string `json:"comment"`
+	Label   string               `json:"label"`
+	Comment string               `json:"comment"`
+	State   dxo.CertificateState `json:"state"`
 }

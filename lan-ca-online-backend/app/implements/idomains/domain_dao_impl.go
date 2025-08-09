@@ -53,17 +53,23 @@ func (inst *DomainDaoImpl) Find(db *gorm.DB, id dxo.DomainID) (*entity.Domain, e
 
 func (inst *DomainDaoImpl) List(db *gorm.DB, q *domains.Query) ([]*entity.Domain, error) {
 
+	model := inst.modelItem()
 	list1 := inst.modelList()
+	var count int64
 
 	db = inst.Agent.DB(db)
-	db = q.ApplyPagination(db)
+	db = db.Model(model)
 	db = q.ApplyWhere(db)
+	db = db.Count(&count)
+	db = q.ApplyPagination(db)
 
 	res := db.Find(&list1)
 	err := res.Error
 	if err != nil {
 		return nil, err
 	}
+
+	q.Pagination.Total = count
 	return list1, nil
 }
 

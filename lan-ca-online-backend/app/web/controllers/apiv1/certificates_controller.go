@@ -40,7 +40,8 @@ func (inst *CertificateController) route(rp libgin.RouterProxy) error {
 
 	rp = rp.For("certificates")
 
-	rp.POST("", inst.handle)
+	rp.POST("", inst.handlePostInsert)
+	rp.POST("insert", inst.handlePostInsert)
 	rp.PUT(":id", inst.handle)
 	rp.DELETE(":id", inst.handle)
 
@@ -88,6 +89,18 @@ func (inst *CertificateController) handleGetMock(c *gin.Context) {
 		wantRequestID: false,
 	}
 	req.execute(req.doGetMock)
+}
+
+func (inst *CertificateController) handlePostInsert(c *gin.Context) {
+	req := &myCertificateRequest{
+		context:         c,
+		controller:      inst,
+		wantRequestID:   false,
+		wantRequestBody: true,
+		wantPermChecker: true,
+	}
+	req.hChecker.AcceptRoles(rbac.RoleUser)
+	req.execute(req.doPostInsert)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -219,5 +232,31 @@ func (inst *myCertificateRequest) doGetList() error {
 		inst.bodyTmp.Pagination = &q.Pagination
 	}
 
+	return nil
+}
+
+func (inst *myCertificateRequest) doPostInsert() error {
+
+	ctx := inst.context
+	ser := inst.controller.CertService
+	checker := inst.hChecker.GetChecker()
+	uid := checker.CurrentUserID()
+
+	item1 := inst.body1.Items[0]
+	item1.Owner = uid
+	item1.Updater = uid
+	item1.Creator = uid
+
+	item2, err := ser.Insert(ctx, item1)
+	checker.HandleError(err)
+	if err != nil {
+		return checker.Error()
+	}
+	checker.CheckOwnerForDTO(&item2.BaseDTO)
+
+	if checker.HasError() {
+		return checker.Error()
+	}
+	inst.bodyTmp.Items = []*dto.Certificate{item2}
 	return nil
 }

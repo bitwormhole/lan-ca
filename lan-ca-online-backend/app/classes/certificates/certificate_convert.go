@@ -33,6 +33,7 @@ func ConvertD2E(src *dto.Certificate, dst *entity.Certificate) error {
 	dst.DomainName = dn
 	dst.Label = src.Label
 	dst.Comment = src.Comment
+	dst.State = src.State
 
 	return nil
 }
@@ -56,6 +57,7 @@ func ConvertE2D(src *entity.Certificate, dst *dto.Certificate) error {
 	dst.DomainNames = []dxo.DomainName{dn}
 	dst.Label = src.Label
 	dst.Comment = src.Comment
+	dst.State = src.State
 
 	return nil
 }

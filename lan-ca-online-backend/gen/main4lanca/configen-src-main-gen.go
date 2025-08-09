@@ -176,6 +176,7 @@ func (inst* pfaa92fe241_icertificates_CertificateServiceImpl) inject(injext appl
 
 	
     com.Dao = inst.getDao(ie)
+    com.RandomService = inst.getRandomService(ie)
 
 
     return nil
@@ -184,6 +185,11 @@ func (inst* pfaa92fe241_icertificates_CertificateServiceImpl) inject(injext appl
 
 func (inst*pfaa92fe241_icertificates_CertificateServiceImpl) getDao(ie application.InjectionExt)p39f1aacbc.DAO{
     return ie.GetComponent("#alias-39f1aacbcc95c25190d9f6295f48486e-DAO").(p39f1aacbc.DAO)
+}
+
+
+func (inst*pfaa92fe241_icertificates_CertificateServiceImpl) getRandomService(ie application.InjectionExt)p9621e8b71.Service{
+    return ie.GetComponent("#alias-9621e8b71013b0fc25942a1749ed3652-Service").(p9621e8b71.Service)
 }
 
 

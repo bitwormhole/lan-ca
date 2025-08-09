@@ -11,6 +11,23 @@ type Fingerprint lang.Hex
 
 ////////////////////////////////////////////////////////////////////////////////
 
+// CertificateState 是一个字符串, 表示证书的当前状态
+type CertificateState string
+
+func (cs CertificateState) String() string {
+	return string(cs)
+}
+
+const (
+	CertificateStateInit      = "initialled" // 初始状态
+	CertificateStateSubmitted = "submitted"  // 已经提交申请
+	CertificateStateSigned    = "signed"     // 已经签署
+	CertificateStateDeployed  = "deployed"   // 已经部署
+	CertificateStateExpired   = "expired"    // 已经过期
+)
+
+////////////////////////////////////////////////////////////////////////////////
+
 type CertificateUserInfo struct {
 	CN    string `json:"cn"`    // Common-Name
 	C     string `json:"c"`     // Country

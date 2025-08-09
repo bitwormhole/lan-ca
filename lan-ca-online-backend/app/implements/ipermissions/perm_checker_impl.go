@@ -78,9 +78,10 @@ type innerChecker struct {
 	builder *innerCheckerBuilder
 	context context.Context
 
-	err          error
-	subject      rbac.SubjectDTO
-	haveRoleList []rbac.RoleName
+	err           error
+	subject       rbac.SubjectDTO
+	haveRoleList  []rbac.RoleName
+	authenticated bool
 
 	countEntityWithOwnership    int
 	countEntityWithoutOwnership int
@@ -197,10 +198,10 @@ func (inst *innerChecker) checkAuthState() {
 
 	sub := &inst.subject
 	uid := inst.CurrentUserID()
-	if uid < 1 {
-		inst.handleWebErrorCode(http.StatusUnauthorized)
-	}
-	if !sub.Authenticated {
+	if (uid > 0) && sub.Authenticated {
+		inst.authenticated = true
+		inst.AddRoles(rbac.RoleUser)
+	} else {
 		inst.handleWebErrorCode(http.StatusUnauthorized)
 	}
 }

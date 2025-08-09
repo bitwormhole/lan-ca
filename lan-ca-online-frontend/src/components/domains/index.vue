@@ -3,10 +3,11 @@
 import MyLoader from './DomainLoader.vue'
 import MyToolbar from './DomainToolbar.vue'
 import MyTable from './DomainTable.vue'
+import MyPages from './DomainPages.vue'
 
 export default {
 
-    components: { MyLoader, MyToolbar, MyTable, },
+    components: { MyLoader, MyToolbar, MyTable, MyPages },
 
     data() {
         return {}
@@ -26,12 +27,18 @@ export default {
 }
 </script>
 
-<style lang="css"></style>
+<style lang="css">
+.the-table {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+</style>
 
 <template>
     <div class="root">
         <my-loader ref="loader" auto-fetch></my-loader>
         <my-toolbar @action="handleAction"></my-toolbar>
-        <my-table></my-table>
+        <my-table class="the-table"></my-table>
+        <my-pages></my-pages>
     </div>
 </template>
