@@ -11,6 +11,7 @@ import (
 	"github.com/starter-go/module-gorm-sqlserver/modules/sqlserver"
 	"github.com/starter-go/security-gin-gorm/modules/securitygingorm"
 	"github.com/starter-go/security/modules/security"
+	"github.com/starter-go/trading/modules/trading"
 )
 
 // Module  ...
@@ -22,6 +23,7 @@ func Module() application.Module {
 	mb.Depend(libgorm.Module())
 	mb.Depend(security.Module())
 	mb.Depend(securitygingorm.Module())
+	mb.Depend(trading.Module())
 
 	mb.Depend(mysql.Module())
 	mb.Depend(sqlserver.Module())

@@ -4,14 +4,14 @@ go 1.20
 
 require (
 	github.com/gin-gonic/gin v1.9.1 // direct
-	github.com/starter-go/application v0.9.26 // direct
+	github.com/starter-go/application v0.9.27 // direct
 	github.com/starter-go/libgin v1.0.17 // direct
 	github.com/starter-go/libgorm v0.9.12 // direct
 	github.com/starter-go/module-gorm-mysql v1.0.0 // direct
 	github.com/starter-go/module-gorm-sqlserver v1.0.0 // direct
 	github.com/starter-go/rbac v0.0.11 // direct
 	github.com/starter-go/security v1.0.55 // direct
-	github.com/starter-go/starter v1.0.12 // direct
+	github.com/starter-go/starter v1.0.13 // direct
 	github.com/starter-go/units v0.0.6 // direct
 	gorm.io/gorm v1.25.5 // direct
 )
@@ -39,7 +39,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.8 // indirect
-	github.com/starter-go/afs v0.9.9 // indirect
+	github.com/starter-go/afs v0.9.13 // indirect
 	github.com/starter-go/base v0.9.11 // indirect
 	github.com/starter-go/configen v0.9.5 // indirect
 	github.com/starter-go/httpagent v0.0.5 // indirect
@@ -52,6 +52,7 @@ require (
 	github.com/starter-go/security-gin-gorm v1.0.55 // indirect
 	github.com/starter-go/security-gorm v1.0.55 // indirect
 	github.com/starter-go/stopper v0.0.4 // indirect
+	github.com/starter-go/trading v0.0.0-20250811085356-ffe88092129c // indirect
 	github.com/starter-go/vlog v0.9.8 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect

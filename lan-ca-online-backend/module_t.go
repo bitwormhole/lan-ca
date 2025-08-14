@@ -11,8 +11,8 @@ import (
 
 const (
 	theModuleName     = "github.com/bitwormhole/lan-ca/backend"
-	theModuleVersion  = "v0.0.0"
-	theModuleRevision = 0
+	theModuleVersion  = "v0.0.1-beta.1"
+	theModuleRevision = 1
 )
 
 ////////////////////////////////////////////////////////////////////////////////

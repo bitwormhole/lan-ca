@@ -15,6 +15,8 @@ func ConvertD2E(src *dto.Domain, dst *entity.Domain) error {
 	dst.IPv4 = src.IPv4
 	dst.IPv6 = src.IPv6
 	dst.Scene = src.Scene
+	dst.PersonalizedDN = src.PersonalizedDN
+	dst.UsePersonalizedDN = src.UsePersonalizedDN
 
 	dst.Label = src.Label
 	dst.Comment = src.Comment
@@ -32,6 +34,8 @@ func ConvertE2D(src *entity.Domain, dst *dto.Domain) error {
 	dst.IPv4 = src.IPv4
 	dst.IPv6 = src.IPv6
 	dst.Scene = src.Scene
+	dst.PersonalizedDN = src.PersonalizedDN
+	dst.UsePersonalizedDN = src.UsePersonalizedDN
 
 	dst.Label = src.Label
 	dst.Comment = src.Comment
