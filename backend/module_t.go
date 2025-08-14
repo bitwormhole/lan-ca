@@ -1,4 +1,4 @@
-package lancaonlinebackend
+package backend
 
 import (
 	"embed"
